@@ -1,0 +1,34 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>My Watchlist</h2>
+
+    {% for listing in listings %}
+        <a class="card mb-3 text-dark" href="{% url 'auction' listing.id %}">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ listing.image }}" class="img-fluid rounded-start" alt="{{ listing.title }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ listing.title }}</h5>
+                        <p class="card-text">
+                            <strong>Price:</strong>
+                            {% if listing.bids.all %}
+                                ${{ listing.max_bid.amount }}
+                            {% else %}
+                                ${{ listing.starting_bid }}
+                            {% endif %}
+                        </p>
+                        <p class="card-text">{{ listing.descripcion }}</p>
+                        <p class="card-text"><small class="text-muted">Created {{ listing.created_at }}</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% if not listings %}
+        <p>No active listings available.</p>
+    {% endif %}
+{% endblock %}
